@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import pytest
 
 from config import Settings
-from core.browser import Browser
+from core.browser import Browser, BrowserConfig
 
 ALLOWED_ENV = ["stage", "prod"]
 
@@ -39,7 +39,16 @@ def load_env(request):
 
 @pytest.fixture(scope="function", autouse=True)
 def browser_settings(settings):
-    pass
+    config = BrowserConfig(
+        browser=settings.browser,
+        base_url=settings.base_url,
+    )
+
+    browser = Browser(config)
+
+    yield browser
+
+    browser.close()
 
 
 @pytest.fixture(scope="session")

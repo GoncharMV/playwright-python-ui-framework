@@ -11,8 +11,8 @@ class BrowserConfig:
 
 
 class Browser:
-    def __init__(self):
-        self.config = BrowserConfig()
+    def __init__(self, config: BrowserConfig):
+        self.config = config
         self._playwright = None
         self._browser = None
         self._context = None
