@@ -5,6 +5,7 @@ import pytest
 
 from config import Settings
 from core.browser import Browser, BrowserConfig
+from core.element import Element
 
 ALLOWED_ENV = ["stage", "prod"]
 
@@ -45,8 +46,11 @@ def browser(settings):
     )
 
     browser = Browser(config)
+    Element.set_browser(browser)
 
     yield browser
+
+    Element.set_browser(None)
 
     browser.close()
 
