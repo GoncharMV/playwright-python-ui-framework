@@ -38,7 +38,7 @@ def load_env(request):
 
 
 @pytest.fixture(scope="function", autouse=True)
-def browser_settings(settings):
+def browser(settings):
     config = BrowserConfig(
         browser=settings.browser,
         base_url=settings.base_url,

@@ -6,7 +6,7 @@ from playwright.sync_api import sync_playwright
 @dataclass
 class BrowserConfig:
     browser: str = "chromium"
-    headless: bool = True
+    headless: bool = False
     base_url: str | None = None
 
 
