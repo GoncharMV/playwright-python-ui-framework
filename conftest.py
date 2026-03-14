@@ -16,6 +16,17 @@ def pytest_addoption(parser):
         default="prod",
         help=f"Environment to run tests: {ALLOWED_ENV}"
     )
+    parser.addoption(
+        "--headed",
+        action="store_true",
+        default=False,
+        help=f"Run tests in headed mode"
+    )
+    parser.addoption(
+        "--browser",
+        action="store",
+        default="chromium",
+    )
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -33,16 +44,20 @@ def load_env(request):
     print(f"Loading environment: {env_name}")
     load_dotenv(env_file)
 
-    print(f"BROWSER: {os.getenv("BROWSER")}")
+    print(f"BROWSER: {request.config.getoption('--browser')}")
+    print(f"HEADLESS: {request.config.getoption('--headed')}")
     print(f"BASE_URL: {os.getenv("BASE_URL")}")
-    print(f"TIMEOUT: {os.getenv("TIMEOUT")}")
 
 
 @pytest.fixture(scope="function", autouse=True)
-def browser(settings):
+def browser(settings, request):
+    isHeaded = not request.config.getoption("--headed")
+    br = request.config.getoption("--browser")
+
     config = BrowserConfig(
-        browser=settings.browser,
         base_url=settings.base_url,
+        browser=br,
+        headless=isHeaded,
     )
 
     browser = Browser(config)

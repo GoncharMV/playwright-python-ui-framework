@@ -6,7 +6,7 @@ from playwright.sync_api import sync_playwright
 @dataclass
 class BrowserConfig:
     browser: str = "chromium"
-    headless: bool = False
+    headless: bool = True
     base_url: str | None = None
 
 
@@ -47,7 +47,6 @@ class Browser:
 
     def open(self, url: str):
         self.page.goto(url)
-
 
     def close(self):
         if self._context:
