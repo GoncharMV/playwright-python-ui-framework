@@ -8,8 +8,8 @@ class Condition(ABC):
     def assert_(self, locator: Locator, timeout: int | None = None) -> None:
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def description(self) -> str:
         pass
 
@@ -20,7 +20,7 @@ class Visible(Condition):
 
     @property
     def description(self) -> str:
-        return "visible"
+        return "is visible"
 
 
 class Hidden(Condition):
@@ -29,4 +29,16 @@ class Hidden(Condition):
 
     @property
     def description(self) -> str:
-        return "hidden"
+        return "is hidden"
+
+
+class _Be:
+    @property
+    def visible(self) -> Visible:
+        return Visible()
+
+    @property
+    def hidden(self) -> Hidden:
+        return Hidden()
+
+be = _Be()
