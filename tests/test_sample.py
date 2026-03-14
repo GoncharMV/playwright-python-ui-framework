@@ -8,3 +8,4 @@ def test_dummy(browser):
     examples.web_inputs.click()
     browser.page.wait_for_timeout(2000)
     examples.web_inputs.should(be.hidden)
+

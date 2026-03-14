@@ -33,10 +33,30 @@ class Element:
         timeout = timeout * 1000 if timeout is not None else self._timeout
         locator = self._get_locator()
 
-        with step(f"Check that {self.type_of} {self._description} {condition.description}"):
+        with step(f"Check that {self.type_of} '{self._description}' {condition.description}"):
             try:
                 condition.assert_(locator=locator, timeout=timeout)
             except AssertionError as e:
                 pytest.fail(f"Locator {self._selector}\nError {str(e)}")
 
+    @property
+    def is_visible(self, **kwargs) -> bool:
+        return self._get_locator(**kwargs).is_visible(timeout=self._timeout)
 
+    @property
+    def is_enabled(self, **kwargs) -> bool:
+        return self._get_locator(**kwargs).is_enabled(timeout=self._timeout)
+
+    @property
+    def is_disabled(self, **kwargs) -> bool:
+        return self._get_locator(**kwargs).is_disabled(timeout=self._timeout)
+
+    @property
+    def is_checked(self, **kwargs) -> bool:
+        return self._get_locator(**kwargs).is_checked(timeout=self._timeout)
+
+    @property
+    def text(self, **kwargs) -> str:
+        locator = self._get_locator(**kwargs)
+        with step(f"Getting inner text of {self.type_of} '{self._description}'"):
+            return locator.inner_text(timeout=self._timeout)
