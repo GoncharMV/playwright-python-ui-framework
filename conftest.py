@@ -27,6 +27,12 @@ def pytest_addoption(parser):
         action="store",
         default="chromium",
     )
+    parser.addoption(
+        "--slowmo",
+        action="store",
+        default="0",
+        help=f"Run tests in slowmo mode"
+    )
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -51,13 +57,15 @@ def load_env(request):
 
 @pytest.fixture(scope="function", autouse=True)
 def browser(settings, request):
-    isHeaded = not request.config.getoption("--headed")
+    is_headed = not request.config.getoption("--headed")
     br = request.config.getoption("--browser")
+    slow_mo = request.config.getoption("--slowmo")
 
     config = BrowserConfig(
         base_url=settings.base_url,
         browser=br,
-        headless=isHeaded,
+        headless=is_headed,
+        slowmo=slow_mo,
     )
 
     browser = Browser(config)

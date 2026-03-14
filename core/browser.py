@@ -8,6 +8,7 @@ class BrowserConfig:
     browser: str = "chromium"
     headless: bool = True
     base_url: str | None = None
+    slowmo: int = 0
 
 
 class Browser:
@@ -23,7 +24,7 @@ class Browser:
         self._playwright = sync_playwright().start()
         browser_type = getattr(self._playwright, self.config.browser)
 
-        self._browser = browser_type.launch(headless=self.config.headless)
+        self._browser = browser_type.launch(headless=self.config.headless, slowMo=self.config.slowmo)
 
         context_options = self._build_context_options()
         self._context = self._browser.new_context(**context_options)
