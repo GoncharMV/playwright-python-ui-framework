@@ -29,9 +29,9 @@ class Element:
         return self._browser.page.locator(locator)
 
 
-    def should(self, condition: Condition, timeout: int | None = None):
+    def should(self, condition: Condition, timeout: int | None = None, **kwargs):
         timeout = timeout * 1000 if timeout is not None else self._timeout
-        locator = self._get_locator()
+        locator = self._get_locator(**kwargs)
 
         with step(f"Check that {self.type_of} '{self._description}' {condition.description}"):
             try:
