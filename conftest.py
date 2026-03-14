@@ -30,7 +30,7 @@ def pytest_addoption(parser):
     parser.addoption(
         "--slowmo",
         action="store",
-        default="0",
+        default=0,
         help=f"Run tests in slowmo mode"
     )
 

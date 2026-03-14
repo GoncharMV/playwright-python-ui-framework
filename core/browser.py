@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from allure import step
 from playwright.sync_api import sync_playwright
 
 
@@ -24,7 +25,7 @@ class Browser:
         self._playwright = sync_playwright().start()
         browser_type = getattr(self._playwright, self.config.browser)
 
-        self._browser = browser_type.launch(headless=self.config.headless, slowMo=self.config.slowmo)
+        self._browser = browser_type.launch(headless=self.config.headless, slow_mo=self.config.slowmo)
 
         context_options = self._build_context_options()
         self._context = self._browser.new_context(**context_options)
@@ -47,7 +48,8 @@ class Browser:
         return self._page
 
     def open(self, url: str):
-        self.page.goto(url)
+        with step(f"go to {url}"):
+            self.page.goto(url)
 
     def close(self):
         if self._context:
