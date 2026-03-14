@@ -17,6 +17,9 @@ class Element:
         self._description = description
         self._timeout = timeout * 1000
 
+    @property
+    def type_of(self) -> str:
+        return "element"
 
     def _get_locator(self, **kwargs) -> Locator:
         locator = self._selector.format(**kwargs)
